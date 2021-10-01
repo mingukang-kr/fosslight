@@ -7,10 +7,15 @@ on:
     branches: [ feat/add-test-action ]
 
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: mariadb:10
+        ports:
+          - 3306:3306
 
     steps:
     - uses: actions/checkout@v2
