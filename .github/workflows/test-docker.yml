@@ -14,15 +14,15 @@ jobs:
     services:
       db:
         image: mariadb:10
-        volumes:
-          - ./db/conf.d:/etc/mysql/conf.d
-          - ./db/data:/var/lib/mysql
-          - ./db/initdb.d:/docker-entrypoint-initdb.d
-        # env:
-        #   MYSQL_DATABASE: fosslight
-        #   MYSQL_PASSWORD: fosslight
-        #   MYSQL_USER: fosslight
-        #   MYSQL_ROOT_PASSWORD: fosslight
+        # volumes:
+        #   - ./db/conf.d:/etc/mysql/conf.d
+        #   - ./db/data:/var/lib/mysql
+        #   - ./db/initdb.d:/docker-entrypoint-initdb.d
+        env:
+          MYSQL_DATABASE: fosslight
+          MYSQL_PASSWORD: fosslight
+          MYSQL_USER: fosslight
+          MYSQL_ROOT_PASSWORD: fosslight
         ports:
           - 3306:3306
 
