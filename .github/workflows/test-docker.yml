@@ -20,21 +20,16 @@ jobs:
           MYSQL_USER: fosslight
           MYSQL_ROOT_PASSWORD: fosslight
         ports:
-          - 3306
-        options: --health-cmd="mysqladmin ping" 
-                 --health-interval=5s
-                 --health-timeout=2s
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping"
+                 --health-interval=10s
+                 --health-timeout=5s
                  --health-retries=3
 
     steps:
-      - name: Verify MariaDB connection
-          env:
-            PORT: ${{ job.services.db.ports[3306] }}
-          run: |
-            while ! mysqladmin ping -h"127.0.0.1" -P"$PORT" --silent; do
-              sleep 1
-            done
       - uses: actions/checkout@v2
+      - name: Connect to DB
+        run: mysql -h fosslight -P 3306 --protocol=tcp -u fosslight -pfosslight -e 'CREATE DATABASE IF NOT EXISTS fosslight;'
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
       - name: Docker run
