@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Connect to DB
-        run: mysql -h fosslight -P 3306 --protocol=tcp -u fosslight -pfosslight -e 'CREATE DATABASE IF NOT EXISTS fosslight;'
+        run: mysql -h 127.0.0.1 -P 3306 --protocol=tcp -u fosslight -pfosslight -e 'CREATE DATABASE IF NOT EXISTS fosslight;'
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
       - name: Docker run
