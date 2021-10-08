@@ -22,9 +22,9 @@ jobs:
         ports:
           - 3306:3306
         volumes:
-          - $(pwd)/db/conf.d:/etc/mysql/conf.d
-          - $(pwd)/db/data:/var/lib/mysql
-          - $(pwd)/db/initdb.d:/docker-entrypoint-initdb.d
+          - /home/db/conf.d:/etc/mysql/conf.d
+          - /home/db/data:/var/lib/mysql
+          - /home/db/initdb.d:/docker-entrypoint-initdb.d
         options: --health-cmd="mysqladmin ping"
                  --health-interval=10s
                  --health-timeout=5s
