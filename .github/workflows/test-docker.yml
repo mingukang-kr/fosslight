@@ -21,15 +21,18 @@ jobs:
           MYSQL_ROOT_PASSWORD: fosslight
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping"
+        options: -v ./db/conf.d:/etc/mysql/conf.d
+                 -v ./db/data:/var/lib/mysql
+                 -v ./db/initdb.d:/docker-entrypoint-initdb.d
+                 --health-cmd="mysqladmin ping"
                  --health-interval=10s
                  --health-timeout=5s
-                 --health-retries=3
+                 --health-retries=5
 
     steps:
       - uses: actions/checkout@v2
-      - name: Connect to DB
-        run: mysql -h 127.0.0.1 -P 3306 --protocol=tcp -u fosslight -pfosslight -e 'CREATE DATABASE IF NOT EXISTS fosslight;'
+      - name: Check DB container running
+        run: mysql -h 127.0.0.1 -P 3306 -u fosslight -pfosslight -e 'CREATE DATABASE IF NOT EXISTS fosslight;'
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
       - name: Docker run
