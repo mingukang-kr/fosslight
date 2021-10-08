@@ -36,7 +36,7 @@ jobs:
       #   run: docker exec -i fosslight_db mysql -ufosslight -pfosslight fosslight < /docker-entrypoint-initdb.d/fosslight_create.sql
 
       - name: Check if file exists
-        run: docker exec fosslight_db ls -la; ls -la ./etc;ls -la ./etc/mysql
+        run: docker exec fosslight_db ls -la ./etc
 
       # - name: Build the Docker image
       #   run: docker build --tag fosslight_web:1.0.0 .
