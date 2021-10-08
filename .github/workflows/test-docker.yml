@@ -4,7 +4,7 @@ on:
   push:
     branches: [ feat/add-test-action ]
   pull_request:
-    branches: [ feat/add-test-action ]
+    branches: [ feat/add-test-action, test-for-pr-action ]
 
 jobs:
   integration-test-with-docker:
@@ -36,10 +36,10 @@ jobs:
       - name: Start containers
         run: docker-compose up -d
 
-      - name: Sleep for 10 seconds
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '10s'
+      # - name: Sleep for 10 seconds
+      #   uses: jakejarvis/wait-action@master
+      #   with:
+      #     time: '10s'
       
       - name: Check running containers
         run: docker-compose ps
@@ -56,23 +56,23 @@ jobs:
       # - name: Docker run
       #   run: docker run -d -p 8180:8180 --name fosslight_web fosslight_web:1.0.0
 
-      # # PR Fail
-      # - name: if fail
-      #   uses: actions/github-script@0.2.0
-      #   with:
-      #     github-token: ${{github.token}}
-      #     script: |
-      #       const ref = "${{github.ref}}"
-      #       const pull_number = Number(ref.split("/")[2])
-      #       await github.pulls.createReview({
-      #         ...context.repo,
-      #         pull_number,
-      #         body: "테스트코드를 다시 확인해주세요.",
-      #         event: "REQUEST_CHANGES"
-      #       })
-      #       await github.pulls.update({
-      #         ...context.repo,
-      #         pull_number,
-      #         state: "closed"
-      #       })
-      #   if: failure()
+      # PR Fail
+      - name: if fail
+        uses: actions/github-script@0.2.0
+        with:
+          github-token: ${{github.token}}
+          script: |
+            const ref = "${{github.ref}}"
+            const pull_number = Number(ref.split("/")[2])
+            await github.pulls.createReview({
+              ...context.repo,
+              pull_number,
+              body: "Check the test code",
+              event: "REQUEST_CHANGES"
+            })
+            await github.pulls.update({
+              ...context.repo,
+              pull_number,
+              state: "closed"
+            })
+        if: failure()
