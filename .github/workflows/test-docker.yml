@@ -38,8 +38,9 @@ jobs:
 
       - name: Check if file exists
         run: |
-          docker exec -it fosslight_db /bin/bash
+          docker exec -i fosslight_db /bin/bash
           ls -la
+          ls -la ./docker-entrypoint-initdb.d/
 
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
