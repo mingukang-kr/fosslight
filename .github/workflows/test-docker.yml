@@ -32,8 +32,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Check DB container running
-        run: mysql -h 127.0.0.1 -P 3306 -u fosslight -pfosslight -e 'CREATE DATABASE IF NOT EXISTS fosslight;'
+      - name: Initialize DB container
+        run: mysql -h 127.0.0.1 -P 3306 -u fosslight -pfosslight -e 'source /docker-entrypoint-initdb.d/fosslight_create.sql'
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
       - name: Docker run
