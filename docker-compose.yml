@@ -39,6 +39,7 @@ services:
                --export.template.path=./template"
     mail:
       image: mailserver/docker-mailserver:10
+      profiles: ["mail"]
       container_name: fosslight_mail
       hostname: mail
       domainname: fosslight.org

@@ -32,23 +32,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      # docker-compose
-      - name: Start DB container
-        run: docker-compose up -d db
+      ### docker-compose
+      - name: Start containers
+        run: docker-compose up -d
 
       - name: Sleep for 10 seconds
         uses: jakejarvis/wait-action@master
         with:
           time: '10s'
+      
+      - name: Check running containers
+        run: docker-compose ps
 
       # - name: Check if file exists
       #   run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
 
-      - name: Initialize DB container
-        run: docker exec -i fosslight_db mysql -ufosslight -pfosslight -e "show databases;"
+      # - name: Check DB container running
+      #   run: docker exec -i fosslight_db mysql -ufosslight -pfosslight -e "show databases;"
 
-      - name: Build the Docker image
-        run: docker build --tag fosslight_web:1.0.0 .
+      # - name: Build the Docker image
+      #   run: docker build --tag fosslight_web:1.0.0 .
         
       # - name: Docker run
       #   run: docker run -d -p 8180:8180 --name fosslight_web fosslight_web:1.0.0
