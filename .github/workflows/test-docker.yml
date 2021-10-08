@@ -32,9 +32,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Initialize DB container
-        run: docker exec -i fosslight_db mysql -ufosslight -pfosslight fosslight < /docker-entrypoint-initdb.d/fosslight_create.sql
+
+      # - name: Initialize DB container
+      #   run: docker exec -i fosslight_db mysql -ufosslight -pfosslight fosslight < /docker-entrypoint-initdb.d/fosslight_create.sql
+
+      - name: Check if file exists
+        run: |
+          docker exec -it fosslight_db /bin/bash
+          ls -la
+
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
+        
       - name: Docker run
         run: docker run -d -p 8180:8180 --name fosslight_web fosslight_web:1.0.0
