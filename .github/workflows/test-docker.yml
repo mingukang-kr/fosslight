@@ -20,11 +20,10 @@ jobs:
           MYSQL_ROOT_PASSWORD: fosslight
         ports:
           - 3306:3306
-        volumes:
-          - /home/db/conf.d:/etc/mysql/conf.d
-          - /home/db/data:/var/lib/mysql
-          - /home/db/initdb.d:/docker-entrypoint-initdb.d
-        options: --name="fosslight_db"
+        options: -v /home/db/conf.d:/etc/mysql/conf.d
+                 -v /home/db/data:/var/lib/mysql
+                 -v /home/db/initdb.d:/docker-entrypoint-initdb.d
+                 --name="fosslight_db"
                  --health-cmd="mysqladmin ping"
                  --health-interval=10s
                  --health-timeout=5s
@@ -39,8 +38,8 @@ jobs:
       - name: Check if file exists
         run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
 
-      - name: Build the Docker image
-        run: docker build --tag fosslight_web:1.0.0 .
+      # - name: Build the Docker image
+      #   run: docker build --tag fosslight_web:1.0.0 .
         
-      - name: Docker run
-        run: docker run -d -p 8180:8180 --name fosslight_web fosslight_web:1.0.0
+      # - name: Docker run
+      #   run: docker run -d -p 8180:8180 --name fosslight_web fosslight_web:1.0.0
