@@ -7,8 +7,7 @@ on:
     branches: [ feat/add-test-action ]
 
 jobs:
-  test:
-
+  integration-test-with-docker:
     runs-on: ubuntu-latest
 
     services:
@@ -25,7 +24,8 @@ jobs:
           - /home/db/conf.d:/etc/mysql/conf.d
           - /home/db/data:/var/lib/mysql
           - /home/db/initdb.d:/docker-entrypoint-initdb.d
-        options: --health-cmd="mysqladmin ping"
+        options: --name="fosslight_db"
+                 --health-cmd="mysqladmin ping"
                  --health-interval=10s
                  --health-timeout=5s
                  --health-retries=3
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Initialize DB container
-        run: mysql -h 127.0.0.1 -P 3306 -u fosslight -pfosslight -e 'source /docker-entrypoint-initdb.d/fosslight_create.sql.txt'
+        run: docker exec -i fosslight_db mysql -ufosslight -pfosslight fosslight < fosslight_create.sql
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
       - name: Docker run
