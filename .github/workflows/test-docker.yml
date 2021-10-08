@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Start DB container
-        run: docker-compose up db -d
+        run: docker-compose up -d db
 
       # - name: Check if file exists
       #   run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
