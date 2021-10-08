@@ -10,33 +10,36 @@ jobs:
   integration-test-with-docker:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: mariadb:10
-        env:
-          MYSQL_DATABASE: fosslight
-          MYSQL_PASSWORD: fosslight
-          MYSQL_USER: fosslight
-          MYSQL_ROOT_PASSWORD: fosslight
-        ports:
-          - 3306:3306
-        options: -v /home/db/conf.d:/etc/mysql/conf.d
-                 -v /home/db/data:/var/lib/mysql
-                 -v "/home/db/initdb.d":"/docker-entrypoint-initdb.d"
-                 --name="fosslight_db"
-                 --health-cmd="mysqladmin ping"
-                 --health-interval=10s
-                 --health-timeout=5s
-                 --health-retries=3
+    # services:
+    #   db:
+    #     image: mariadb:10
+    #     env:
+    #       MYSQL_DATABASE: fosslight
+    #       MYSQL_PASSWORD: fosslight
+    #       MYSQL_USER: fosslight
+    #       MYSQL_ROOT_PASSWORD: fosslight
+    #     ports:
+    #       - 3306:3306
+    #     options: -v /home/db/conf.d:/etc/mysql/conf.d
+    #              -v /home/db/data:/var/lib/mysql
+    #              -v "/home/db/initdb.d":"/docker-entrypoint-initdb.d"
+    #              --name="fosslight_db"
+    #              --health-cmd="mysqladmin ping"
+    #              --health-interval=10s
+    #              --health-timeout=5s
+    #              --health-retries=3
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Start DB container
+        run: docker-compose up db
 
-      - name: Check if file exists
-        run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
+      # - name: Check if file exists
+      #   run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
 
-      - name: Initialize DB container
-        run: docker exec -i fosslight_db mysql -ufosslight -pfosslight fosslight < /docker-entrypoint-initdb.d/fosslight_create.sql
+      # - name: Initialize DB container
+      #   run: docker exec -i fosslight_db mysql -ufosslight -pfosslight fosslight < /docker-entrypoint-initdb.d/fosslight_create.sql
 
       - name: Build the Docker image
         run: docker build --tag fosslight_web:1.0.0 .
