@@ -17,6 +17,8 @@ LABEL maintainer="FOSSLight <fosslight-dev@lge.com>"
 COPY --from=build /home/gradle/src/build/libs/*.war /app/FOSSLight.war
 
 RUN ls -al
+RUN ls -al ./home
+RUN ls -al ./app
 
 COPY ./verify/verify /app/verify/verify
 COPY ./db/wait-for /app/wait-for
