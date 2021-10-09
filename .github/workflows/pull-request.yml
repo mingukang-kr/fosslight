@@ -21,10 +21,6 @@ jobs:
           time: '30s'
       - name: Check running containers
         run: docker-compose ps
-
-      - name: check dirs in fosslight_web
-        run: docker exec -i fosslight_web ls -al; ls -al ./app
-
       # - name: Save docker-compose logs
       #   run:
       #     docker-compose logs --no-color web > docker-compose-web.log &&
