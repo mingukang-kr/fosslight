@@ -9,9 +9,8 @@ WORKDIR /home/gradle/src
 
 COPY ./db/wait-for /app/wait-for
 RUN chmod +x /app/wait-for
-RUN apk update && apk add bash
 WORKDIR /app
-RUN ./wait-for 127.0.0.1:3306 -t 120
+RUN sh -c "./wait-for 127.0.0.1:3306 -t 120"
 RUN gradle test
 WORKDIR /home/gradle/src
 
@@ -30,7 +29,7 @@ ADD ./src/main/resources/template /app/template
 
 # RUN chmod +x /app/wait-for
 RUN chmod +x /app/verify/verify
-# RUN apk update && apk add bash
+RUN apk update && apk add bash
 
 WORKDIR /app
 
