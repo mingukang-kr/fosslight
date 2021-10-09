@@ -9,7 +9,8 @@ WORKDIR /home/gradle/src
 
 COPY ./db/wait-for /app/wait-for
 RUN chmod +x /app/wait-for
-RUN ./app/wait-for 127.0.0.1:3306 -t 120
+RUN cd /app
+RUN ./wait-for 127.0.0.1:3306 -t 120
 RUN gradle test
 
 RUN gradle build --no-daemon --exclude-task test
