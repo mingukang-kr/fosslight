@@ -35,7 +35,7 @@ class ProjectControllerIntegrationTest {
         // when
         mockMvc.perform(post("/project/saveAjax")
                         .param("copy", "false")
-                        // .param("prjName", UUID.randomUUID().toString())
+                        .param("prjName", UUID.randomUUID().toString())
                         .param("prjVersion", "v1")
                         .param("noticeType", "10")
                         .param("distributionType", "10")
