@@ -7,13 +7,6 @@ COPY --chown=gradle:gradle . /home/gradle/src
 
 WORKDIR /home/gradle/src
 
-COPY ./db/wait-for /app/wait-for
-RUN chmod +x /app/wait-for
-WORKDIR /app
-RUN wait-for 127.0.0.1:3306 -t 120
-RUN gradle test
-WORKDIR /home/gradle/src
-
 RUN gradle build --no-daemon --exclude-task test
 
 #Create the containerized app
@@ -22,12 +15,15 @@ FROM openjdk:8-jre-alpine
 LABEL maintainer="FOSSLight <fosslight-dev@lge.com>"
 
 COPY --from=build /home/gradle/src/build/libs/*.war /app/FOSSLight.war
+
+RUN ls -al
+
 COPY ./verify/verify /app/verify/verify
-# COPY ./db/wait-for /app/wait-for
+COPY ./db/wait-for /app/wait-for
 
 ADD ./src/main/resources/template /app/template
 
-# RUN chmod +x /app/wait-for
+RUN chmod +x /app/wait-for
 RUN chmod +x /app/verify/verify
 RUN apk update && apk add bash
 
