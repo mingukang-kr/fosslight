@@ -4,9 +4,9 @@
 name: Pull requests fosslight
 
 on:
-  pull_request:
-    branches:
-      - '*'
+  push:
+    branches: [ feat/add-test-action ]
+    
 jobs:
   build:
     runs-on: ubuntu-latest
