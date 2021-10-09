@@ -9,10 +9,11 @@ WORKDIR /home/gradle/src
 
 COPY ./db/wait-for /app/wait-for
 RUN chmod +x /app/wait-for
-RUN cd /app
+WORKDIR /app
 RUN ./wait-for 127.0.0.1:3306 -t 120
 RUN gradle test
 
+WORKDIR /home/gradle/src
 RUN gradle build --no-daemon --exclude-task test
 
 #Create the containerized app
