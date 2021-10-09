@@ -23,7 +23,7 @@ jobs:
         run: docker-compose ps
 
       - name: check dirs in fosslight_web
-        run: docker exec -i fosslight_web ls -al
+        run: docker exec -i fosslight_web ls -al; ls -al ./app
 
       # - name: Save docker-compose logs
       #   run:
