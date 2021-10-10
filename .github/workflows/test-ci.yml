@@ -28,13 +28,15 @@ jobs:
                  --health-retries=3
 
     steps:
-      - name: Fix Permission denied when "Deleting the contents of"
+      - name: Give permission
         run: sudo chown -R $USER:$USER /home/runner/work/fosslight
 
       - uses: actions/checkout@v2
 
       - name: Check if file exists
-        run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
+        run: |
+        docker exec fosslight_db ls -la .
+        docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
 
       - name: Check running containers
         run: docker ps
