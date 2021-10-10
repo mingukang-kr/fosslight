@@ -7,7 +7,7 @@ COPY --chown=gradle:gradle . /home/gradle/src
 
 WORKDIR /home/gradle/src
 
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon --exclude-task test
 
 #Create the containerized app
 FROM openjdk:8-jre-alpine
@@ -17,6 +17,7 @@ LABEL maintainer="FOSSLight <fosslight-dev@lge.com>"
 COPY --from=build /home/gradle/src/build/libs/*.war /app/FOSSLight.war
 COPY ./verify/verify /app/verify/verify
 COPY ./db/wait-for /app/wait-for
+COPY ./ /app/
 
 ADD ./src/main/resources/template /app/template
 
