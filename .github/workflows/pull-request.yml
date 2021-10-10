@@ -5,7 +5,7 @@ name: Pull requests fosslight
 
 on:
   push:
-    branches: [ feat/add-test-action ]
+    branches: [ develop ]
 
 jobs:
   build:

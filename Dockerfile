@@ -17,7 +17,6 @@ LABEL maintainer="FOSSLight <fosslight-dev@lge.com>"
 COPY --from=build /home/gradle/src/build/libs/*.war /app/FOSSLight.war
 COPY ./verify/verify /app/verify/verify
 COPY ./db/wait-for /app/wait-for
-COPY ./ /app/
 
 ADD ./src/main/resources/template /app/template
 

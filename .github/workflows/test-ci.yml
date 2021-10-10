@@ -1,0 +1,37 @@
+name: Test with Docker CI
+
+on:
+  push:
+    branches: [ feat/add-test-action ]
+
+jobs:
+  integration-test-with-docker:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: mariadb:10
+        env:
+          MYSQL_DATABASE: fosslight
+          MYSQL_PASSWORD: fosslight
+          MYSQL_USER: fosslight
+          MYSQL_ROOT_PASSWORD: fosslight
+        ports:
+          - 3306:3306
+        options: -v ${{ github.workspace }}/db/conf.d:/etc/mysql/conf.d
+                 -v ${{ github.workspace }}/db/data:/var/lib/mysql
+                 -v ${{ github.workspace }}/db/initdb.d:/docker-entrypoint-initdb.d
+                 --name="fosslight_db"
+                 --health-cmd="mysqladmin ping"
+                 --health-interval=10s
+                 --health-timeout=5s
+                 --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check if file exists
+        run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
+
+      - name: Check running containers
+        run: docker ps
