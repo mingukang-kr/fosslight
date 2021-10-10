@@ -28,6 +28,9 @@ jobs:
                  --health-retries=3
 
     steps:
+      - name: Fix Permission denied when "Deleting the contents of"
+        run: sudo chown -R $USER:$USER /home/github/actions-runner/_work/{REPOSITORY_NAME_HERE}
+
       - uses: actions/checkout@v2
 
       - name: Check if file exists
