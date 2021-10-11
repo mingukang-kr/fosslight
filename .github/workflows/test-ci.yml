@@ -30,8 +30,8 @@ jobs:
     steps:
       - name: Give permission
         run: |
-          sudo chown -R $USER:$USER ${{ github.workspace }}
-          sudo chmod -R 777 ${{ github.workspace }}
+          sudo chown -R $USER:$USER ./
+          sudo chmod -R 777 ./
 
       - uses: actions/checkout@v2
 
@@ -41,7 +41,17 @@ jobs:
       - name: Check if init.sql exists in db container
         run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
 
-      - name: show roles
+      - name: Show roles of files
+        run: |
+          ls -ltr
+          ls -ltr ./db/        
+
+      - name: Give permission
+        run: |
+          sudo chown -R $USER:$USER ./
+          sudo chmod -R 777 ./
+
+      - name: Show roles of files
         run: |
           ls -ltr
           ls -ltr ./db/
