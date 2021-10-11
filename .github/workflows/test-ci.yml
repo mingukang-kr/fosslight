@@ -18,9 +18,9 @@ jobs:
           MYSQL_ROOT_PASSWORD: fosslight
         ports:
           - 3306:3306
-        options: -v $(pwd)/db/conf.d:/etc/mysql/conf.d
-                 -v $(pwd)/db/data:/var/lib/mysql
-                 -v $(pwd)/db/initdb.d:/docker-entrypoint-initdb.d
+        options: -v /usr/bin/docker/db/conf.d:/etc/mysql/conf.d
+                 -v /usr/bin/docker/db/data:/var/lib/mysql
+                 -v /usr/bin/docker/db/initdb.d:/docker-entrypoint-initdb.d
                  --name="fosslight_db"
                  --health-cmd="mysqladmin ping"
                  --health-interval=10s
