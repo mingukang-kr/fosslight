@@ -34,8 +34,16 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Restart db container
-        run: docker restart fosslight_db
+      - name: Check running containers
+        run: docker ps
+
+      - name: Show roles of files
+        run: |
+          ls -ltr
+          ls -ltr ./db/        
+
+      # - name: Restart db container
+      #   run: docker restart fosslight_db
 
       - name: Check if init.sql exists in db container
         run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/     
