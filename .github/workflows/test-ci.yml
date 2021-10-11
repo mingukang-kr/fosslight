@@ -31,7 +31,7 @@ jobs:
       - name: Give permission
         run: |
           sudo chown -R $USER:$USER ${{ github.workspace }}
-          sudo chmod a+rwx ${{ github.workspace }} -R
+          sudo chmod -R 777 ${{ github.workspace }}
 
       - uses: actions/checkout@v2
 
