@@ -18,9 +18,9 @@ jobs:
           MYSQL_ROOT_PASSWORD: fosslight
         ports:
           - 3306:3306
-        options: -v ${{ github.workspace }}/db/conf.d:/etc/mysql/conf.d
-                 -v ${{ github.workspace }}/db/data:/var/lib/mysql
-                 -v ${{ github.workspace }}/db/initdb.d:/docker-entrypoint-initdb.d
+        options: -v /home/runner/work/fosslight/fosslight/db/conf.d:/etc/mysql/conf.d
+                 -v /home/runner/work/fosslight/fosslight/db/data:/var/lib/mysql
+                 -v /home/runner/work/fosslight/fosslight/db/initdb.d:/docker-entrypoint-initdb.d
                  --name="fosslight_db"
                  --health-cmd="mysqladmin ping"
                  --health-interval=10s
@@ -28,16 +28,13 @@ jobs:
                  --health-retries=3
 
     steps:
-      - name: Give permission
-        run: sudo chown -R $USER:$USER /home/runner/work/fosslight/fosslight
+      # - name: Give permission
+      #   run: sudo chown -R $USER:$USER /home/runner/work/fosslight/fosslight
 
       - uses: actions/checkout@v2
 
       - name: Restart db container
         run: docker restart fosslight_db
-
-      - name: Give permission
-        run: sudo chown -R $USER:$USER /home/runner/work/fosslight/fosslight
 
       - name: Check if init.sql exists in db container
         run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
