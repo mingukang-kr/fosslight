@@ -27,10 +27,10 @@ jobs:
                --health-retries=3
 
     steps:
-      - name: Give permission
-        run: |
-          sudo chown -R $USER:$USER ./
-          sudo chmod -R 777 ./
+      # - name: Give permission
+      #   run: |
+      #     sudo chown -R $USER:$USER ./
+      #     sudo chmod -R 777 ./
 
       - uses: actions/checkout@v2
 
@@ -40,10 +40,10 @@ jobs:
       - name: Check if init.sql exists in db container
         run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/     
 
-      - name: Give permission
-        run: |
-          sudo chown -R $USER:$USER ./
-          sudo chmod -R 777 ./
+      # - name: Give permission
+      #   run: |
+      #     sudo chown -R $USER:$USER ./
+      #     sudo chmod -R 777 ./
 
       - name: Show roles of files
         run: |
