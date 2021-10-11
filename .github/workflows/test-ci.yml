@@ -56,8 +56,8 @@ jobs:
       #     ls -ltr
       #     ls -ltr ./db/
 
-      - name: Check DB schema
-        run: docker exec -i fosslight_db mysql -ufosslight -pfosslight -e "show databases; use fosslight; show tables;"
+      # - name: Check DB schema
+      #   run: docker exec -i fosslight_db mysql -ufosslight -pfosslight -e "show databases; use fosslight; show tables;"
 
       - name: Build docker image
         run: docker build -t fosslight_web .
