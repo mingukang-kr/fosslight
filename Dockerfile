@@ -7,7 +7,7 @@ COPY --chown=gradle:gradle . /home/gradle/src
 
 WORKDIR /home/gradle/src
 
-RUN gradle build --no-daemon --exclude-task test
+RUN gradle build --no-daemon
 
 #Create the containerized app
 FROM openjdk:8-jre-alpine

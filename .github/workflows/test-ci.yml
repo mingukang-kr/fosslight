@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: restart db container
+      - name: Restart db container
         run: docker restart fosslight_db
 
       - name: Check if init.sql exists in db container
@@ -45,5 +45,5 @@ jobs:
       - name: Check running containers
         run: docker ps
 
-      - name: Build the Docker image
-        run: docker build --name fosslight_web .
+      - name: Build docker image
+        run: docker build -t fosslight_web .
