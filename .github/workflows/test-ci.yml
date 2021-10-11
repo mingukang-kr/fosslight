@@ -36,11 +36,11 @@ jobs:
       - name: Restart db container
         run: docker restart fosslight_db
 
+      - name: Give permission
+        run: sudo chown -R $USER:$USER /home/runner/work/fosslight/fosslight
+
       - name: Check if init.sql exists in db container
         run: docker exec fosslight_db ls -la ./docker-entrypoint-initdb.d/
-
-      - name: check pwd
-        run: pwd
 
       # - name: Check DB schema
       #   run: docker exec -i fosslight_db mysql -ufosslight -pfosslight -e "show databases; use fosslight; show tables;"
@@ -48,5 +48,5 @@ jobs:
       - name: Check running containers
         run: docker ps
 
-      # - name: Build docker image
-      #   run: docker build -t fosslight_web .
+      - name: Build docker image
+        run: docker build -t fosslight_web .
