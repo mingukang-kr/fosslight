@@ -8,23 +8,23 @@ jobs:
   integration-test-with-docker:
     runs-on: ubuntu-latest
 
-    container:
-      image: mariadb:10
-      env:
-        MYSQL_DATABASE: fosslight
-        MYSQL_PASSWORD: fosslight
-        MYSQL_USER: fosslight
-        MYSQL_ROOT_PASSWORD: fosslight
-      ports:
-        - 3306:3306
-      options: -v ${{ github.workspace }}/db/conf.d:/etc/mysql/conf.d
-               -v ${{ github.workspace }}/db/data:/var/lib/mysql
-               -v ${{ github.workspace }}/db/initdb.d:/docker-entrypoint-initdb.d
-               --name="fosslight_db"
-               --health-cmd="mysqladmin ping"
-               --health-interval=10s
-               --health-timeout=5s
-               --health-retries=3
+    # container:
+    #   image: mariadb:10q
+    #   env:
+    #     MYSQL_DATABASE: fosslight
+    #     MYSQL_PASSWORD: fosslight
+    #     MYSQL_USER: fosslight
+    #     MYSQL_ROOT_PASSWORD: fosslight
+    #   ports:
+    #     - 3306:3306
+    #   options: -v ${{ github.workspace }}/db/conf.d:/etc/mysql/conf.d
+    #            -v ${{ github.workspace }}/db/data:/var/lib/mysql
+    #            -v ${{ github.workspace }}/db/initdb.d:/docker-entrypoint-initdb.d
+    #            --name="fosslight_db"
+    #            --health-cmd="mysqladmin ping"
+    #            --health-interval=10s
+    #            --health-timeout=5s
+    #            --health-retries=3
 
     steps:
       # - name: Give permission
@@ -34,13 +34,11 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Check running containers
-        run: docker ps
+      - name: docker run DB
+        run : docker run -d -p 3306:3306 -v ${{ github.workspace }}/db/conf.d:/etc/mysql/conf.d -v ${{ github.workspace }}/db/data:/var/lib/mysql -v ${{ github.workspace }}/db/initdb.d:/docker-entrypoint-initdb.d --health-cmd='mysqladmin ping' --health-interval=10s --health-timeout=5s --health-retries=3 -e "MYSQL_DATABASE=fosslight" -e "MYSQL_PASSWORD=fosslight" -e "MYSQL_USER=fosslight" -e "MYSQL_ROOT_PASSWORD=fosslight" --name fosslight_db mariadb:10
 
-      - name: Show roles of files
-        run: |
-          ls -ltr
-          ls -ltr ./db/        
+      - name: Check running containers
+        run: docker ps       
 
       # - name: Restart db container
       #   run: docker restart fosslight_db
@@ -53,16 +51,13 @@ jobs:
       #     sudo chown -R $USER:$USER ./
       #     sudo chmod -R 777 ./
 
-      - name: Show roles of files
-        run: |
-          ls -ltr
-          ls -ltr ./db/
+      # - name: Show roles of files
+      #   run: |
+      #     ls -ltr
+      #     ls -ltr ./db/
 
       - name: Check DB schema
         run: docker exec -i fosslight_db mysql -ufosslight -pfosslight -e "show databases; use fosslight; show tables;"
-
-      - name: Check running containers
-        run: docker ps
 
       - name: Build docker image
         run: docker build -t fosslight_web .
