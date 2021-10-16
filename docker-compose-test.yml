@@ -37,7 +37,9 @@ services:
                --export.template.path=./template"
 
     test:
-       build: .
+       build:
+        context: .
+        dockerfile: ./test/Dockerfile-test
        container_name: fosslight_test
        depends_on:
          - web

@@ -21,3 +21,6 @@ jobs:
 
       - name: check running containers
         run: docker ps
+
+      - name: check files exist in container
+        run: docker exec fosslight_test ls -ltr
