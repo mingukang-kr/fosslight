@@ -1,0 +1,18 @@
+name: Pull requests fosslight
+
+on:
+  push:
+    branches:
+      - feat/add-test-action-with-docker
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: docker-compose-test up
+        run: docker-compose -f docker-compose-test.yml up -d
+        
+      - name: check running containers
+        run: docker ps
