@@ -13,6 +13,11 @@ jobs:
 
       - name: docker-compose-test up
         run: docker-compose -f docker-compose-test.yml up -d
-        
+
+      - name: wait for 20 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '20s'
+
       - name: check running containers
         run: docker ps
