@@ -14,27 +14,13 @@ jobs:
       - name: docker-compose-test up
         run: docker-compose -f docker-compose-test.yml up -d
 
-      - name: wait for 20 seconds
+      - name: wait for 30 seconds all the containers to be ready
         uses: jakejarvis/wait-action@master
         with:
-          time: '20s'
+          time: '30s'
 
       - name: check running containers
         run: docker ps
 
-      - name: check files exist in container
-        run: docker exec fosslight_test ls -ltr
-
-      - name: check files exist in container
-        run: docker exec fosslight_test ls -ltr
-
-      - name: check files exist in container
+      - name: run the test in the test container
         run: docker exec fosslight_test ./gradlew test
-
-      - name: wait for 60 seconds
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '60s'
-
-      - name: check files exist in container
-        run: docker exec fosslight_test ls -ltr ./build/test-results          
