@@ -27,4 +27,4 @@ RUN apk update && apk add bash
 
 WORKDIR /app
 
-CMD ["java" , "-jar", "FOSSLight.war", "--root.dir=/data/fosslight", "--server.port=8009"]
+CMD ["java" , "-jar", "FOSSLight.war", "--root.dir=/data/fosslight", "--server.port=8080"]

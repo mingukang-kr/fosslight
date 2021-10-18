@@ -24,3 +24,17 @@ jobs:
 
       - name: check files exist in container
         run: docker exec fosslight_test ls -ltr
+
+      - name: check files exist in container
+        run: docker exec fosslight_test ls -ltr
+
+      - name: check files exist in container
+        run: docker exec fosslight_test ./gradlew test
+
+      - name: wait for 60 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '60s'
+
+      - name: check files exist in container
+        run: docker exec fosslight_test ls -ltr ./build/test-results          
